@@ -1,0 +1,352 @@
+﻿@{
+    // TODO: Tạo các textbox tra cứu
+    // Tạo hàm generate giao diện list riêng của người dùng
+    //
+
+    // Màn hình này show tất cả khoản thu chi và tra cứu
+    Layout = null;
+
+    // ****************** Khởi động Dữ liệu Nguồn - Nội bộ *****************
+    var Ung_dung = XL_UNG_DUNG.Khoi_dong_Ung_dung();
+    var Nguoi_dung = Ung_dung.Khoi_dong_Nguoi_dung();
+
+
+    // Khi người dùng bấm vô một cái button thì load lại màn hình này với tham số là
+    // ****************** Khai báo và Khởi động giá trị đầu cho biến *******
+    var Ma_so_Chuc_nang = Request["Th_Ma_so_Chuc_nang"];
+    if (Ma_so_Chuc_nang == null)
+    {
+        Ma_so_Chuc_nang = Nguoi_dung.Chuc_nang_Khoi_dong_MH_Chinh.Ma_so;
+    }
+
+    var Chuoi_HTML_Ket_qua = "";
+    // Lấy danh sách thu chi riêng của người dùng ở đây nè.
+    var Chuoi_HTML_Danh_sach_Thu_Ca_nhan = "";
+    var Chuoi_HTML_Danh_sach_Chi_Ca_nhan = "";
+
+    // Kiểm tra người dùng đã đăng nhập chưa
+
+    // Mặc định là chỗ này người dùng đang đăng nhập
+    // Sút qua bên màn hình đăng nhập liền.
+    // Cho ở đó tới khi nào đăng nhập xong thì mới được xài bình thường. (quay về trang chính)
+    if (Nguoi_dung.Ten_Dang_nhap == null)
+    {
+        Response.Redirect("MH_Dang_nhap.cshtml");
+    }
+
+    // Xử lý trên trang này
+    // KHỎI LO CHƯA CÓ NGƯỜI DÙNG ĐĂNG NHẬP. VÌ NẾU CHƯA THÌ TUI ĐÃ ĐÁ NÓ VÔ MÀN HÌNH ĐĂNG NHẬP NHƯ Ở PHÍA TRÊN RỒI!!!
+    if (Nguoi_dung.Ten_Dang_nhap != null)
+    {
+        if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Khoi_dong_MH_Chinh.Ma_so)
+        {
+            Chuoi_HTML_Ket_qua = Ung_dung.Khoi_dong_MH_Chinh();
+            // Mới
+
+            Chuoi_HTML_Danh_sach_Chi_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_chi_Ca_nhan_Xem(Nguoi_dung);
+            Chuoi_HTML_Danh_sach_Thu_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_thu_Ca_nhan_Xem(Nguoi_dung);
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Tra_cuu_Chung.Ma_so)
+        {
+            // Lấy lại hai danh sách kia + điều kiện :O
+            Chuoi_HTML_Ket_qua = Ung_dung.Khoi_dong_MH_Chinh();
+
+
+            // Mới
+            Chuoi_HTML_Danh_sach_Chi_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_chi_Ca_nhan_Xem(Nguoi_dung);
+            Chuoi_HTML_Danh_sach_Thu_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_thu_Ca_nhan_Xem(Nguoi_dung);
+        }
+        // Trả về từ màn hình thông tin khoản.
+        // Xử lý tạo khoản thu/chi và cập nhật ở đây
+        // Nhận tham số từ bên màn hình nhập bên kia.
+        // Ở đây mới gọi hàm xử lý nghiệp vụ
+        // Bên kia chỉ tạo form.
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Them_Khoan_thu.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_thu"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_THU Khoan_thu_Moi = Ung_dung.Nhan_Du_lieu_Khoan_thu_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_thu_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Them_Khoan_thu(Khoan_thu_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Them_Khoan_chi.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_chi"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_CHI Khoan_chi_Moi = Ung_dung.Nhan_Du_lieu_Khoan_chi_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_chi_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Them_Khoan_chi(Khoan_chi_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Cap_nhat_Khoan_thu.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_thu"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_THU Khoan_thu_Moi = Ung_dung.Nhan_Du_lieu_Khoan_thu_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_thu_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Cap_nhat_Khoan_thu(Khoan_thu_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Cap_nhat_Khoan_chi.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_chi"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_CHI Khoan_chi_Moi = Ung_dung.Nhan_Du_lieu_Khoan_chi_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_chi_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Cap_nhat_Khoan_chi(Khoan_chi_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Xoa_Khoan_thu.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_thu"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_THU Khoan_thu_Moi = Ung_dung.Nhan_Du_lieu_Khoan_thu_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_thu_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Xoa_Khoan_thu(Khoan_thu_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Xoa_Khoan_chi.Ma_so)
+        {
+            // Xử lý nhận thông tin người dùng
+            var Ma_khoan = Request["Th_Ma_Khoan_chi"];
+            string So_tien = Request["Th_So_tien"];
+            string Ngay = Request["Th_Ngay"];
+
+            // Gọi hàm nhận dữ liệu
+            XL_KHOAN_CHI Khoan_chi_Moi = Ung_dung.Nhan_Du_lieu_Khoan_chi_Nguoi_dung(Ma_khoan, So_tien, Ngay);
+            string json = Json.Encode(Khoan_chi_Moi);
+            Response.Write(json);
+
+            // Gọi hàm xử lý
+            Ung_dung.Xu_ly_Xoa_Khoan_chi(Khoan_chi_Moi);
+
+            // Xóa query để không bị resubmit.
+            Response.Redirect("MH_Quan_ly_Thu_Chi_Rieng.cshtml");
+        }
+        else if (Ma_so_Chuc_nang == Nguoi_dung.Chuc_nang_Dang_xuat.Ma_so)
+        {
+            Session.Abandon();
+            Response.Redirect("MH_Dang_nhap.cshtml");
+        }
+
+        // Load anyway :D
+        Chuoi_HTML_Ket_qua = Ung_dung.Khoi_dong_MH_Chinh();
+        // Mới
+
+        Chuoi_HTML_Danh_sach_Chi_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_chi_Ca_nhan_Xem(Nguoi_dung);
+        Chuoi_HTML_Danh_sach_Thu_Ca_nhan = Ung_dung.Tao_Chuoi_HTML_Danh_sach_Khoan_thu_Ca_nhan_Xem(Nguoi_dung);
+    }
+
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Quản lý Thu chi Cá nhân</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Quản lý Thu chi</a>
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="MH_Chinh.cshtml" aria-current="page">
+                                Tổng quan
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MH_Quan_ly_Thu_Chi_Rieng.cshtml" aria-current="page">
+                                Quản lý cá nhân
+                                <span class="visually-hidden">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto me-1 mt-2 mt-lg-0">
+                        <li class="btn btn-outline-light btn-sm">
+                            <form method="post">
+                                <input type="hidden" name="Th_Ma_so_Chuc_nang" value="@Nguoi_dung.Chuc_nang_Dang_xuat.Ma_so" />
+                                <button type="submit" style="color:white;background:black" class="nav-link" href="">@Nguoi_dung.Chuc_nang_Dang_xuat.Ten</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <main class="container">
+        @Html.Raw(Chuoi_HTML_Ket_qua)
+
+        <h1>Màn hình Quản lý thu chi Cá nhân</h1>
+        <!-- This method is GET by default-->
+
+
+        <h2>Tìm kiếm</h2>
+        <form class="my-2 my-lg-0 container" action="#">
+            <input type="hidden" name="Th_Ma_so_Chuc_nang" value="@Nguoi_dung.Chuc_nang_Tra_cuu_Chung.Ma_so" />
+
+            <table>
+                <tr class="">
+                    <td>
+                        <label for="Th_Date_Greater" class="form-label ms-2">Số tiền</label>
+                    </td>
+                    <td>
+                        <div class="mx-2">
+                            <input type="number" class="form-control" name="Th_Money_Greater" id="" aria-describedby="helpId"
+                                   placeholder="Nhiều hơn" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mx-2">
+                            <input type="number" class="form-control" name="Th_Money_Less" id="" aria-describedby="helpId"
+                                   placeholder="Ít hơn" />
+                        </div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td>
+                        <label for="Th_Money_Greater" class="form-label ms-2">Ngày</label>
+                    </td>
+                    <td>
+                        <div class="mx-2">
+                            <input type="date" class="form-control" name="Th_Date_Greater" id=""
+                                   placeholder="Sau ngày" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mx-2">
+                            <input type="date" class="form-control" name="Th_Date_Less" id=""
+                                   placeholder="Trước ngày" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                @Nguoi_dung.Chuc_nang_Tra_cuu_Chung.Ten
+            </button>
+        </form>
+
+        <h2>Danh sách tất cả khoản thu chi cá nhân</h2>
+        <div class="container border">
+            <div class="row" id="BIG_TABLE">
+                <div class="col container border" id="CHI_SIDE">
+                    <table class="table id="CHI_LIST">
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bold" scope="col">
+                                    Khoản chi
+                                    <br />
+                                    <form method="post" action="MH_Thong_tin_Khoan">
+                                        <input type="hidden" name="Th_Ma_so_Chuc_nang" value="THEM_KHOAN_CHI" />
+                                        <button type="submit">Thêm</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @Html.Raw(Chuoi_HTML_Danh_sach_Chi_Ca_nhan)
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col container border" id="THU_SIDE">
+                    <table class="table" id="THU_LIST">
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bold" scope="col">
+                                    Khoản thu
+                                    <form method="post" action="MH_Thong_tin_Khoan">
+                                        <input type="hidden" name="Th_Ma_so_Chuc_nang" value="THEM_KHOAN_THU" />
+                                        <button type="submit">Thêm</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @Html.Raw(Chuoi_HTML_Danh_sach_Thu_Ca_nhan)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/&#64;popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

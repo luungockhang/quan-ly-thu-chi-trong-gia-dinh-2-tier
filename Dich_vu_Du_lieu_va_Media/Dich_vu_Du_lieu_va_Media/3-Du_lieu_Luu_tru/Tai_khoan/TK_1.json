@@ -1,0 +1,74 @@
+{
+  "Ma_so": "TK_1",
+  "Ten_Dang_nhap": "test",
+  "Mat_khau": "123",
+  "Danh_sach_Khoan_thu": [
+    {
+      "Ma_so": "KT1",
+      "Ngay_thu": "27-06-2010",
+      "So_Tien": 817538
+    },
+    {
+      "Ma_so": "KT2",
+      "Ngay_thu": "02-08-2019",
+      "So_Tien": 974107
+    },
+    {
+      "Ma_so": "KT3",
+      "Ngay_thu": "06-09-2020",
+      "So_Tien": 853031
+    },
+    {
+      "Ma_so": "KT4",
+      "Ngay_thu": "19-09-2013",
+      "So_Tien": 438686
+    },
+    {
+      "Ma_so": "KT5",
+      "Ngay_thu": "12-03-2010",
+      "So_Tien": 971511
+    }
+  ],
+  "Danh_sach_Khoan_chi": [
+    {
+      "Ma_so": "KC1",
+      "Ngay_chi": "28-09-2016",
+      "So_Tien": 21000
+    },
+    {
+      "Ma_so": "KC2",
+      "Ngay_chi": "03-05-2003",
+      "So_Tien": 168548
+    },
+    {
+      "Ma_so": "KC3",
+      "Ngay_chi": "11-11-2016",
+      "So_Tien": 817538
+    },
+    {
+      "Ma_so": "KC4",
+      "Ngay_chi": "11-08-2024",
+      "So_Tien": 663523
+    },
+    {
+      "Ma_so": "KC5",
+      "Ngay_chi": "20-06-1997",
+      "So_Tien": 394672
+    },
+    {
+      "Ma_so": " KC6",
+      "Ngay_chi": "31-12-2312",
+      "So_Tien": 1232112312
+    }
+  ],
+  "Thong_tin_Thanh_vien": {
+    "Ho_ten": "Le Van Vi Du",
+    "Ma_so": "TV_1",
+    "Gioi_tinh": {
+      "Ma_so": "GT_1",
+      "Ten": "Nam"
+    },
+    "Ngay_sinh": "10-07-2016",
+    "Hinh": ""
+  }
+}

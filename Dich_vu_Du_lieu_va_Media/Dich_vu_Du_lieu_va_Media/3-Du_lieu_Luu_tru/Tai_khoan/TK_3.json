@@ -1,0 +1,59 @@
+{
+  "Ma_so": "TK_3",
+  "Ten_Dang_nhap": "test3",
+  "Mat_khau": "123",
+  "Danh_sach_Khoan_thu": [
+    {
+      "Ma_so": "KT1",
+      "Ngay_thu": "23-01-2024",
+      "So_Tien": "2200000"
+    },
+    {
+      "Ma_so": "KT2",
+      "Ngay_thu": "13-12-1998",
+      "So_Tien": "736235"
+    },
+    {
+      "Ma_so": "KT3",
+      "Ngay_thu": "22-02-2005",
+      "So_Tien": "809257"
+    },
+    {
+      "Ma_so": "KT4",
+      "Ngay_thu": "06-12-2021",
+      "So_Tien": "197830"
+    }
+  ],
+  "Danh_sach_Khoan_chi": [
+    {
+      "Ma_so": "KC1",
+      "Ngay_chi": "20-06-1997",
+      "So_Tien": "394672"
+    },
+    {
+      "Ma_so": "KC2",
+      "Ngay_chi": "06-12-2021",
+      "So_Tien": "168548"
+    },
+    {
+      "Ma_so": "KC3",
+      "Ngay_chi": "18-04-2006",
+      "So_Tien": "438686"
+    },
+    {
+      "Ma_so": "KC4",
+      "Ngay_chi": "03-02-2002",
+      "So_Tien": "974107"
+    }
+  ],
+  "Thong_tin_Thanh_vien": {
+    "Ho_ten": "Diễm My",
+    "Ma_so": "TV_3",
+    "Gioi_tinh": {
+      "Ma_so": "GT_2",
+      "Ten": "Nữ"
+    },
+    "Ngay_sinh": "17-09-2010",
+    "Hinh": ""
+  }
+}

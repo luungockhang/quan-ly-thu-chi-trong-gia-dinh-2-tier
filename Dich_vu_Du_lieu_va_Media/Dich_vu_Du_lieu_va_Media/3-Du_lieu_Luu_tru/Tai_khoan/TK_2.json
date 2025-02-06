@@ -1,0 +1,69 @@
+{
+  "Ma_so": "TK_2",
+  "Ten_Dang_nhap": "test2",
+  "Mat_khau": "123",
+  "Danh_sach_Khoan_thu": [
+    {
+      "Ma_so": "KT1",
+      "Ngay_thu": "02-12-2017",
+      "So_Tien": "394672"
+    },
+    {
+      "Ma_so": "KT2",
+      "Ngay_thu": "16-02-2018",
+      "So_Tien": "627479"
+    },
+    {
+      "Ma_so": "KT3",
+      "Ngay_thu": "06-09-2020",
+      "So_Tien": "837149"
+    },
+    {
+      "Ma_so": "KT4",
+      "Ngay_thu": "19-09-2013",
+      "So_Tien": "971553"
+    },
+    {
+      "Ma_so": "KT5",
+      "Ngay_thu": "12-03-2010",
+      "So_Tien": "880033"
+    }
+  ],
+  "Danh_sach_Khoan_chi": [
+    {
+      "Ma_so": "KC1",
+      "Ngay_chi": "06-09-2020",
+      "So_Tien": "21000"
+    },
+    {
+      "Ma_so": "KC2",
+      "Ngay_chi": "12-01-2009",
+      "So_Tien": "168548"
+    },
+    {
+      "Ma_so": "KC3",
+      "Ngay_chi": "10-07-2016",
+      "So_Tien": "817538"
+    },
+    {
+      "Ma_so": "KC4",
+      "Ngay_chi": "15-04-2001",
+      "So_Tien": "663523"
+    },
+    {
+      "Ma_so": "KC5",
+      "Ngay_chi": "21-04-2002",
+      "So_Tien": "394672"
+    }
+  ],
+  "Thong_tin_Thanh_vien": {
+    "Ho_ten": "Le Thi Vi Du",
+    "Ma_so": "TV_2",
+    "Gioi_tinh": {
+      "Ma_so": "GT_2",
+      "Ten": "Nữ"
+    },
+    "Ngay_sinh": "05-02-1996",
+    "Hinh": ""
+  }
+}
